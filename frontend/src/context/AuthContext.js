@@ -38,6 +38,7 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens',JSON.stringify(data))
+            console.log(authTokens)
 
             if((jwtDecode(data.access).is_superuser)){
                 console.log("Admin Login")

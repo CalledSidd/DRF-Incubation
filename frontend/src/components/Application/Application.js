@@ -17,6 +17,20 @@ function Application() {
         }else{
             Navigate('/login')
         }
+        async function check(){
+            await axios.get("http://127.0.0.1:8000/checkApplication", {
+                headers : {
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `Bearer ${authTokens.access}`
+                }
+            }).then((response) => {console.log(response)}
+            ).catch((error) => { console.log(error) 
+                setLimit(true)
+                function nav() {
+                    Navigate('')
+                }
+            })
+        }
     }, [])
     const [username, setUsername] = useState(()=> user ? user.username:"")
     const [address, setAddress]   = useState("")
@@ -282,7 +296,6 @@ const formHandler = async (e) => {
                     </div>
                 </div>
             </div>
-            
         </div>
     )
 }

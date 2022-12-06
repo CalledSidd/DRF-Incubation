@@ -17,6 +17,9 @@ class Application(models.Model):
     allotted     = models.BooleanField(default=False)
     Approved     = models.BooleanField(default=False)
     Denied       = models.BooleanField(default=False)
+    def __str__(self):
+        return self.company_name
+    
 
 class Slot(models.Model):
     application = models.ForeignKey(Application, on_delete=models.SET_NULL, null=True, blank=True, related_name='SlotBooking')
