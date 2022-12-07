@@ -52,7 +52,7 @@ class RegisterApplication(APIView):
         body         = json.loads(body)
         body         = body['data']
         user         = request.user 
-        username     = body['user']
+        username     = user.username
         address      = body['address']
         city         = body['city']
         state        = body['state']
@@ -115,13 +115,27 @@ class DenyApplication(APIView):
     permission_classes = [IsAdminUser]
     def get(self, request, id):
         Application.objects.filter(id = id).update(Denied = True)
+        return Response(200)
 
 
 class AllApplications(APIView):
     def get(self, request):
         apps = Application.filter.all()
         serializer = ApplicationSerializer(apps, many = True)
-        return response(serializer, 200)
+        return response(serializer.data, 200)
+
+
+class ApprovedApplications(APIView):
+    def get(self, request):
+        apps = Application.objects.filter(Q(Approved = True))
+        serializer = ApplicationSerializer(apps, many=True)
+        return Response(serializer.data, 200)
+
+class DeniedApplications(APIView):
+    def get(self, request):
+        apps = Application.objects.filter(Q(Denied = True))
+        serializer = ApplicationSerializer(apps, many=True)
+        return Response(serializer.data, 200)
 
 
 class AllSlots(APIView):
@@ -130,7 +144,7 @@ class AllSlots(APIView):
         for slot in slots:
             print(slot.user)
         serializer = SlotSerializer(slots, many = True)
-        return Response(serializer, 200)
+        return Response(serializer.data, 200)
 
 
 class GetAllottedApplication(APIView):

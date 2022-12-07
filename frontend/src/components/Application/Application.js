@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 
 function Application() {
@@ -16,6 +17,9 @@ function Application() {
             
         }else{
             Navigate('/login')
+        }
+        if(jwtDecode(authTokens.access).is_superuser){
+            Navigate('/admin')
         }
         async function check(){
             await axios.get("http://127.0.0.1:8000/checkApplication", {

@@ -10,5 +10,8 @@ urlpatterns = [
     # Admin
     path('allApplications',views.AllApplications.as_view(), name='allapps'),
     path('approveApplication/<int:id>' ,views.ApproveApplication.as_view(), name='approveapp'),
+    path('declineApplication/<int:id>', views.DenyApplication.as_view(), name='denyapp'),
+    path('viewApproved',views.ApprovedApplications.as_view(),name='approvedapps'),
+    path('viewDeclined',views.DeniedApplications.as_view(),name='deniedapps'),
     
 ]

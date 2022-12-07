@@ -1,8 +1,7 @@
 function Slot(){
     return(
         <div className="fixed-top text-center">
-        <h1 className="text-center">Slot</h1>
-        
+            <p>Hiii Hii</p>
         </div>
     )
 }

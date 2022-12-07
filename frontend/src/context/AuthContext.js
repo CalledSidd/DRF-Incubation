@@ -41,7 +41,7 @@ export const AuthProvider = ({children}) => {
             console.log(authTokens)
 
             if((jwtDecode(data.access).is_superuser)){
-                console.log("Admin Login")
+                navigate('/admin')
             }else{
                 navigate('/')
             }
