@@ -11,8 +11,8 @@ from rest_framework import status
 
 
 
-from . serializers import ApplicationSerializer
-from . models import Application
+from . serializers import ApplicationSerializer, SlotSerializer, AllocatedCompanies
+from . models import Application, Slot
 import json
 # Create your views here.
 
@@ -98,7 +98,7 @@ class UserApplications(APIView):
 # Admin Side
 class ApplicationsList(APIView):
     def get(self, request):
-        applications =  Application.objects.all()
+        applications =  Application.objects.filter(Q(applied = True) & Q(Approved = False) & Q(Denied = False))
         serializer   = ApplicationSerializer(applications, many=True)
         return Response(serializer.data, 200)
 
@@ -115,3 +115,33 @@ class DenyApplication(APIView):
     permission_classes = [IsAdminUser]
     def get(self, request, id):
         Application.objects.filter(id = id).update(Denied = True)
+
+
+class AllApplications(APIView):
+    def get(self, request):
+        apps = Application.filter.all()
+        serializer = ApplicationSerializer(apps, many = True)
+        return response(serializer, 200)
+
+
+class AllSlots(APIView):
+    def get(self, request):
+        slots = slots.objects.all()
+        for slot in slots:
+            print(slot.user)
+        serializer = SlotSerializer(slots, many = True)
+        return Response(serializer, 200)
+
+
+class GetAllottedApplication(APIView):
+    def get(self, request, id):
+        App = Application.objects.filter(id = id)
+        serializer = AllocatedCompanies(App, many = True)
+        return Response(serializer.data, 200)
+
+
+class AllocateSlot(APIView):
+    def get(self, request, id):
+        App = Application.objects.filter(id = id)
+        Slot.objects.filter(id = id).update( company_name = company_name)
+        return Response(200)

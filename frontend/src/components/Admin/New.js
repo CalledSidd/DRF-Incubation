@@ -1,9 +1,9 @@
-function Record(){
+function NewApps(){
     return(
         <div className=" fixed-top text-center">
-            <h1>Record</h1>
+            <h1>NewApps</h1>
         </div>
     )
 }
 
-export default Record
+export default NewApps
