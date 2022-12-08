@@ -20,6 +20,7 @@ function MyApplications() {
 
     return (
         <div className="container mt-5">
+            <h5>Your Applications </h5>
             <table class="table">
                 <thead>
                     <tr>

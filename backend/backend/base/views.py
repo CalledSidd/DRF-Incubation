@@ -138,15 +138,6 @@ class DeniedApplications(APIView):
         return Response(serializer.data, 200)
 
 
-class AllSlots(APIView):
-    def get(self, request):
-        slots = slots.objects.all()
-        for slot in slots:
-            print(slot.user)
-        serializer = SlotSerializer(slots, many = True)
-        return Response(serializer.data, 200)
-
-
 class GetAllottedApplication(APIView):
     def get(self, request, id):
         App = Application.objects.filter(id = id)
@@ -154,8 +145,23 @@ class GetAllottedApplication(APIView):
         return Response(serializer.data, 200)
 
 
+class ApprovedCompanies(APIView):
+    def get(self, request):
+        company = Application.objects.filter(Q(Approved = True) & Q(allotted = False))
+        serializer = AllocatedCompanies(company, many=True)
+        return Response(serializer.data, 200)
+
+
+class AllSlots(APIView):
+    def get(self, request):
+        slots = Slot.objects.all()
+        for slot in slots:
+            print(slot.user)
+        serializer = SlotSerializer(slots, many = True)
+        return Response(serializer.data, 200)
+
 class AllocateSlot(APIView):
-    def get(self, request, id):
+    def get(self, request, id, company_name):
         App = Application.objects.filter(id = id)
         Slot.objects.filter(id = id).update( company_name = company_name)
         return Response(200)

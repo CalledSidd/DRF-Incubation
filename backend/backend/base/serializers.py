@@ -17,4 +17,5 @@ class SlotSerializer(serializers.ModelSerializer):
 class AllocatedCompanies(serializers.ModelSerializer):
     class Meta:
         model = Application 
-        fields = '__all__'
+        fields = ['id', 'company_name']
+

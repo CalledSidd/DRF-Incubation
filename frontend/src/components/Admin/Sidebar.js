@@ -11,7 +11,7 @@ function Sidebar() {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-auto min-vh-100 bg-dark position-sticky ">
+                <div className="col-auto min-vh-100 bg-dark position-absolute-top ">
                     <ul>
                         <li>
                         <NavLink className='text-decoration-none' to='/admin'>

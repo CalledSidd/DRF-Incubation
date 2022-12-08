@@ -34,7 +34,6 @@ export const AuthProvider = ({children}) => {
         let data = await response.json()
         
         if (response.status === 200) {
-
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens',JSON.stringify(data))
@@ -73,9 +72,6 @@ export const AuthProvider = ({children}) => {
 
 
     useEffect(() => {
-        if(loading){
-            updateToken()
-        }
         let fiveminutes = 1000 * 60 * 10
         let interval = setInterval(() => {
             if(authTokens){

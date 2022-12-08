@@ -22,13 +22,15 @@ class Application(models.Model):
     
 
 class Slot(models.Model):
-    application = models.ForeignKey(Application, on_delete=models.SET_NULL, null=True, blank=True, related_name='SlotBooking')
-    number      = models.CharField(max_length= 50)
+    user        = models.IntegerField(blank = True, null = True)
+    company_name= models.CharField(max_length=100, null = True, blank= True, unique= True)
+    number      = models.CharField(max_length= 50, unique=True)
     available   = models.BooleanField(default = True)
     reserved    = models.BooleanField(default = False)
+    app         = models.IntegerField(blank=True, null =True ,unique = True)
 
     def __str__(self):
-        return self.application
+        return self.number
 
 
 
