@@ -14,7 +14,7 @@ function Application() {
 
     useEffect(() => {
         if(authTokens){
-            
+            console.log(authTokens, "These are authTokens")
         }else{
             Navigate('/login')
         }
@@ -58,6 +58,7 @@ const formHandler = async (e) => {
     }
     else{
         console.log("Form Successful")
+       
         await axios.post("http://127.0.0.1:8000/registerApplication",
         {
         data:{

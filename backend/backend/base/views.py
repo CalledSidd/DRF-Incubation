@@ -51,6 +51,7 @@ class RegisterApplication(APIView):
         body         = request.body.decode('utf-8')
         body         = json.loads(body)
         body         = body['data']
+        print("user", request.user.id)
         user         = request.user 
         username     = user.username
         address      = body['address']
@@ -60,12 +61,13 @@ class RegisterApplication(APIView):
         email        = body['email']
         company_name = body['company_name']
         applications = Application.objects.create(
+            user = user,
             address  = address,city         = city,
             state    = state,  email        = email,
             phone    = phone,  company_name = company_name
         ) 
         print(applications)
-        applications.save
+        applications.save()
         return Response(200)
 
 
