@@ -19,28 +19,11 @@ function MyApplications() {
 
 
     return (
-        <div className="container mt-5">
-            <h5>Your Applications </h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Application Number</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Room Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
+        <>
+            <div className='container fixed-top d-flex-justify-content-between'>
+                <h5 className='text-center pt-5'>Your Application has been received we will be contacting you sson</h5>
+            </div>
+        </>
     )
 }
 export default MyApplications

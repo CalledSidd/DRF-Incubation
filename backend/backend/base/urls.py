@@ -15,5 +15,5 @@ urlpatterns = [
     path('viewDeclined',views.DeniedApplications.as_view(),name='deniedapps'),
     path('approvedCompanies', views.ApprovedCompanies.as_view(), name='approvedcompanies'),
     path('allSlots',views.AllSlots.as_view(), name='allslots'),
-    path('allocateSlot/<int:id>',views.AllocateSlot.as_view(),name='assingslot')
+    path('allocateSlot/<int:id>/<str:company_name>',views.AllocateSlot.as_view(),name='assingslot')
 ]

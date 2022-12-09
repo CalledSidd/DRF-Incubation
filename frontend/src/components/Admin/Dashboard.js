@@ -3,9 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import Admin from "../../pages/Admin";
 import Sidebar from "./Sidebar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import jwtDecode from "jwt-decode";
 
 
 function AdminDashboard() {
@@ -20,6 +21,9 @@ function AdminDashboard() {
     const [phone, setPhone] = useState("")
     const [company_name, setCompany_name] = useState("")
     let { authTokens } = useContext(AuthContext)
+    const Navigate = useNavigate()
+
+
 
     useEffect(() => {
         console.log(authTokens.access)
@@ -36,7 +40,7 @@ function AdminDashboard() {
     }
     return (
         <>
-            <div className="container mt-5 fixed-top text-center ">
+            <div className="container mt-5 fixed-top text-center">
                 <h4 className="text-center">Requests</h4> <hr />
                 {modalopen ? <ViewApp></ViewApp> : ""}
                 <table className="table ">

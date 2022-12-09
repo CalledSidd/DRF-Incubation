@@ -12,7 +12,7 @@ from rest_framework import status
 
 
 from . serializers import ApplicationSerializer, SlotSerializer, AllocatedCompanies
-from . models import Application, Slot
+from . models import Application, Slot , BookingSlot
 import json
 # Create your views here.
 
@@ -53,7 +53,8 @@ class RegisterApplication(APIView):
         body         = body['data']
         print("user", request.user.id)
         user         = request.user 
-        username     = user.username
+        username     = body['username']
+        name         = user.username
         address      = body['address']
         city         = body['city']
         state        = body['state']
@@ -107,7 +108,6 @@ class ApplicationsList(APIView):
 
 class ApproveApplication(APIView):
     permission_classes = [IsAdminUser]
-
     def get(self, request, id):
         Application.objects.filter(id = id).update(Approved = True)
         return Response(200)
@@ -164,6 +164,12 @@ class AllSlots(APIView):
 
 class AllocateSlot(APIView):
     def get(self, request, id, company_name):
-        App = Application.objects.filter(id = id)
+        print(id,company_name, "Id and company name of the Allocated Companies")
+        App = Application.objects.filter(id=id)
         Slot.objects.filter(id = id).update( company_name = company_name)
+        Application.objects.filter(Q(Approved=True), company_name = company_name).update(allotted=True)
         return Response(200)
+
+class Book(APIView):
+    def get(self, request, id, company_name):
+        App = Application.objects.filter(id = id)

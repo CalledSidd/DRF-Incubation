@@ -21,21 +21,21 @@ function Application() {
         if(jwtDecode(authTokens.access).is_superuser){
             Navigate('/admin')
         }
-        // async function check(){
-        //     await axios.get("http://127.0.0.1:8000/checkApplication", {
-        //         headers : {
-        //             'Content-Type' : 'application/json',
-        //             'Authorization' : `Bearer ${authTokens.access}`
-        //         }
-        //     }).then((response) => {console.log(response)}
-        //     ).catch((error) => { console.log(error) 
-        //         setLimit(true)
-        //         function nav() {
-        //             Navigate('/myapps')
-        //         }setTimeout(nav, 3000)
-        //     })
-        // }
-        // check();
+    //     async function check(){
+    //         await axios.get("http://127.0.0.1:8000/checkApplication", {
+    //             headers : {
+    //                 'Content-Type' : 'application/json',
+    //                 'Authorization' : `Bearer ${authTokens.access}`
+    //             }
+    //         }).then((response) => {console.log(response)}
+    //         ).catch((error) => { console.log(error) 
+    //             setLimit(true)
+    //             function nav() {
+    //                 Navigate('/myapps')
+    //             }setTimeout(nav, 2000)
+    //         })
+    //     }
+    //     check();
     }, [])
     const [username, setUsername] = useState(()=> user ? user.username:"")
     const [address, setAddress]   = useState("")
@@ -80,6 +80,7 @@ const formHandler = async (e) => {
         ).then((response) => {
             console.log(response)
             alert("Successfully registered")
+            Navigate('/myapps')
         }).catch((error)=> {
             alert("Token is invalid please login again")
             logout()

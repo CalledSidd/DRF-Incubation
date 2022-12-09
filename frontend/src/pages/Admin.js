@@ -11,7 +11,7 @@ function Admin() {
         <div>
             <Sidebar/>
             <Outlet/>
-            {/* <AdminDashboard/> */}
+            
         </div>
     )
 

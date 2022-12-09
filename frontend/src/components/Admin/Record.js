@@ -47,10 +47,10 @@ async function appApps() {
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">No</th>
                         <th scope="col">Company Name</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">User</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -72,10 +72,10 @@ async function appApps() {
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">No</th>
                         <th scope="col">Company Name</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">User</th>
+                        
                     </tr>
                 </thead>
                 <tbody>

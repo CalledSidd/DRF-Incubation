@@ -9,7 +9,7 @@ import AuthContext from "../../context/AuthContext";
 function Sidebar() {
     let {logout} = useContext(AuthContext)
     return (
-        <div className="container-fluid">
+        <div className="container-fluid ">
             <div className="row">
                 <div className="col-auto min-vh-100 bg-dark position-absolute-top ">
                     <ul>
