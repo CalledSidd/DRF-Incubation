@@ -77,12 +77,12 @@ function Signup() {
               <Button variant="dark" type="submit" >
                 SignUp
               </Button>
-            </Form>
               <Link to='/login'>
               <Button variant="dark-outline">
                 <span>Login</span>
                 </Button>
               </Link>
+            </Form>
           </div>
           </div>
         </div>

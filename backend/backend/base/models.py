@@ -12,6 +12,7 @@ class Application(models.Model):
     address      = models.CharField(max_length=100)
     company_name = models.CharField(max_length=50)
     created_at   = models.DateTimeField(auto_now_add=True)
+    typeof       = models.CharField(max_length = 50, null=True, blank=True, default='Physical')
     # Allocation
     applied      = models.BooleanField(default=True)
     allotted     = models.BooleanField(default=False)

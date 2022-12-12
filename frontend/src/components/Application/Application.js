@@ -14,28 +14,28 @@ function Application() {
 
     useEffect(() => {
         if(authTokens){
-            console.log(authTokens, "These are authTokens")
+            
         }else{
             Navigate('/login')
         }
         if(jwtDecode(authTokens.access).is_superuser){
             Navigate('/admin')
         }
-    //     async function check(){
-    //         await axios.get("http://127.0.0.1:8000/checkApplication", {
-    //             headers : {
-    //                 'Content-Type' : 'application/json',
-    //                 'Authorization' : `Bearer ${authTokens.access}`
-    //             }
-    //         }).then((response) => {console.log(response)}
-    //         ).catch((error) => { console.log(error) 
-    //             setLimit(true)
-    //             function nav() {
-    //                 Navigate('/myapps')
-    //             }setTimeout(nav, 2000)
-    //         })
-    //     }
-    //     check();
+        async function check(){
+            await axios.get("http://127.0.0.1:8000/checkApplication", {
+                headers : {
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `Bearer ${authTokens.access}`
+                }
+            }).then((response) => {console.log(response)}
+            ).catch((error) => { console.log(error) 
+                setLimit(true)
+                function nav() {
+                    Navigate('/myapps')
+                }setTimeout(nav, 3000)
+            })
+        }
+        check();
     }, [])
     const [username, setUsername] = useState(()=> user ? user.username:"")
     const [address, setAddress]   = useState("")
@@ -44,6 +44,7 @@ function Application() {
     const [email, setEmail]       = useState("")
     const [phone, setPhone]       = useState("")
     const [company_name, setCompany_name] = useState("")
+    const [type_of, setTypeof] = useState("")
 
 
 const formHandler = async (e) => {
@@ -68,7 +69,8 @@ const formHandler = async (e) => {
             "state": state,
             "email":email,
             "phone":phone,
-            "company_name": company_name
+            "company_name": company_name,
+            "type_of": type_of
         },
 
         },{
@@ -110,6 +112,7 @@ const formHandler = async (e) => {
                                             id="name"
                                             name='name'
                                             onChange={(e)=> setUsername(e.target.value)}
+                                            required
                                         />
                                     </div>
                                     <div className="col-6 mb-3">
@@ -120,6 +123,7 @@ const formHandler = async (e) => {
                                             id="address"
                                             name='address'
                                             onChange={(e)=> setAddress(e.target.value)}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -132,6 +136,7 @@ const formHandler = async (e) => {
                                             id="city"
                                             name='city'
                                             onChange={(e)=> setCity(e.target.value)}
+                                            required
                                         />
                                     </div>
                                     <div className="col-6 mb-3">
@@ -142,6 +147,7 @@ const formHandler = async (e) => {
                                             id="state"
                                             name='state'
                                             onChange={(e)=> setState(e.target.value)}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -154,6 +160,7 @@ const formHandler = async (e) => {
                                             id="email"
                                             name='email'
                                             onChange={(e)=> setEmail(e.target.value)}
+                                            required
                                         />
                                         <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                                     </div>
@@ -165,6 +172,7 @@ const formHandler = async (e) => {
                                             id="phone"
                                             name='phone'
                                             onChange={(e)=> setPhone(e.target.value)}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -177,6 +185,7 @@ const formHandler = async (e) => {
                                             id="company_name"
                                             name='company_name'
                                             onChange={(e)=> setCompany_name(e.target.value)}
+                                            required
                                         />
                                     </  div>
                                 </div>
@@ -264,11 +273,13 @@ const formHandler = async (e) => {
                                     />
                                 </div>
                                 <label for="exampleFormControlTextarea1" className="form-label">Type of Incubation needed</label>
-                                <div className="form-check">
+                                <div className="form-check ">
                                     <input
                                         type="radio"
                                         name="incubation"
                                         id="physical"
+                                        onChange={(e)=> setTypeof("Physical")}
+                                        
                                     />
                                     <label className="form-check-label" for="flexRadioDefault1">
                                         Physical Incubation
@@ -279,6 +290,8 @@ const formHandler = async (e) => {
                                         type="radio"
                                         name="incubation"
                                         id="virtual"
+                                        onChange={(e)=> setTypeof("Virtual")}
+                                        
                                     />
                                     <label className="form-check-label" for="flexRadioDefault2">
                                         Virtual Incubation

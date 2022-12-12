@@ -20,6 +20,7 @@ function AdminDashboard() {
     const [state, setState] = useState("")
     const [phone, setPhone] = useState("")
     const [company_name, setCompany_name] = useState("")
+    const [type_of, setTypeof] = useState("")
     let { authTokens } = useContext(AuthContext)
     const Navigate = useNavigate()
 
@@ -72,6 +73,7 @@ function AdminDashboard() {
                                             setState(data.city)
                                             setPhone(data.phone)
                                             setCompany_name(data.company_name)
+                                            setTypeof(data.typeof)
                                             setModalopen(true)
                                             
                                         }}>Open</button></td>
@@ -130,6 +132,7 @@ function AdminDashboard() {
                         <p> Company  : {company_name}</p>
                         <p> Phone    : {phone}</p>
                         <p> Address  : {address}, {state}, {city}</p>
+                        <p> Type of  : {type_of}</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={props.onHide}>Close</Button>

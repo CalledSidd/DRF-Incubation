@@ -20,8 +20,9 @@ function MyApplications() {
 
     return (
         <>
-            <div className='container fixed-top d-flex-justify-content-between'>
-                <h5 className='text-center pt-5'>Your Application has been received we will be contacting you sson</h5>
+            <div className='container fixed-top '>
+                <h5 className='text-center pt-5'>Your Application has been received we will be contacting you soon</h5>
+            <button onClick={logout} className="btn btn-dark text-start">Logout</button>
             </div>
         </>
     )

@@ -30,7 +30,7 @@ class Signup(APIView):
             user.save()
         except Exception as e:
             print(e)
-        return Response(200)
+        return Response(status = status.HTTP_200_OK)
 
 class RegisterApplication(APIView):
     permission_classes = [IsAuthenticated]
@@ -44,6 +44,7 @@ class RegisterApplication(APIView):
             'phone'    : "",
             'email'    : "",
             'company_name': "",
+            'type'     : "",
         }
         return Response(post)
 
@@ -51,10 +52,12 @@ class RegisterApplication(APIView):
         body         = request.body.decode('utf-8')
         body         = json.loads(body)
         body         = body['data']
+        typeof       = body['type_of']
+        print(typeof,"This is the type of incubation")
         print("user", request.user.id)
         user         = request.user 
         username     = body['username']
-        name         = user.username
+        name         = body['username']
         address      = body['address']
         city         = body['city']
         state        = body['state']
@@ -62,29 +65,32 @@ class RegisterApplication(APIView):
         email        = body['email']
         company_name = body['company_name']
         applications = Application.objects.create(
-            user = user,
+            user = user, typeof = typeof, name = name,
             address  = address,city         = city,
             state    = state,  email        = email,
             phone    = phone,  company_name = company_name
         ) 
         print(applications)
         applications.save()
-        return Response(200)
+        return Response(status = status.HTTP_200_OK)
 
 
 class CheckApplication(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user 
-        if Application.objects.filter(user = user).exists():
-            return Response(200)
-        if Application.objects.filter(Q(user = user) & Q(denied = True)):
-            return Response(200)
-        if Application.objects.filter(Q(user = user) & Q(applied= True) & Q(allotted = True)).exists():
-            return Response(403)
-        if Application.objects.filter(Q(user = user) & Q(applied = True) & Q(Approved = True)).exists():
-            return Response(403)
-        return Response(200)
+        if not Application.objects.filter(user = user).exists():
+            return Response(status = status.HTTP_200_OK)
+        if Application.objects.filter(Q(user = user) & Q(Denied = True)):
+            return Response(status = status.HTTP_200_OK)
+        
+        if Application.objects.filter(Q(user = user) & Q(applied= True) & ~Q(allotted = True)).exists():
+            return Response(status = status.HTTP_403_FORBIDDEN)
+        elif Application.objects.filter(Q(user = user) & Q(applied = True) & Q(Approved = True)).exists():
+            return Response(status = status.HTTP_403_FORBIDDEN)
+
+        
+        return Response(status = status.HTTP_200_OK)
 
 
 
@@ -94,7 +100,7 @@ class UserApplications(APIView):
         user = request.user
         applications = Application.objects.filter(user = user)
         serializer = ApplicationSerializer(applications, many=True)
-        return Response(serializer.data ,200) 
+        return Response(serializer.data ,status = status.HTTP_200_OK) 
 
 
 
@@ -103,55 +109,55 @@ class ApplicationsList(APIView):
     def get(self, request):
         applications =  Application.objects.filter(Q(applied = True) & Q(Approved = False) & Q(Denied = False))
         serializer   = ApplicationSerializer(applications, many=True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 
 class ApproveApplication(APIView):
     permission_classes = [IsAdminUser]
     def get(self, request, id):
         Application.objects.filter(id = id).update(Approved = True)
-        return Response(200)
+        return Response(status = status.HTTP_200_OK)
 
 
 class DenyApplication(APIView):
     permission_classes = [IsAdminUser]
     def get(self, request, id):
         Application.objects.filter(id = id).update(Denied = True)
-        return Response(200)
+        return Response(status = status.HTTP_200_OK)
 
 
 class AllApplications(APIView):
     def get(self, request):
         apps = Application.filter.all()
         serializer = ApplicationSerializer(apps, many = True)
-        return response(serializer.data, 200)
+        return response(serializer.data, status = status.HTTP_200_OK)
 
 
 class ApprovedApplications(APIView):
     def get(self, request):
         apps = Application.objects.filter(Q(Approved = True))
         serializer = ApplicationSerializer(apps, many=True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 class DeniedApplications(APIView):
     def get(self, request):
         apps = Application.objects.filter(Q(Denied = True))
         serializer = ApplicationSerializer(apps, many=True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 
 class GetAllottedApplication(APIView):
     def get(self, request, id):
         App = Application.objects.filter(id = id)
         serializer = AllocatedCompanies(App, many = True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 
 class ApprovedCompanies(APIView):
     def get(self, request):
         company = Application.objects.filter(Q(Approved = True) & Q(allotted = False))
         serializer = AllocatedCompanies(company, many=True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 
 class AllSlots(APIView):
@@ -160,7 +166,7 @@ class AllSlots(APIView):
         for slot in slots:
             print(slot.user)
         serializer = SlotSerializer(slots, many = True)
-        return Response(serializer.data, 200)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
 class AllocateSlot(APIView):
     def get(self, request, id, company_name):
@@ -168,8 +174,4 @@ class AllocateSlot(APIView):
         App = Application.objects.filter(id=id)
         Slot.objects.filter(id = id).update( company_name = company_name)
         Application.objects.filter(Q(Approved=True), company_name = company_name).update(allotted=True)
-        return Response(200)
-
-class Book(APIView):
-    def get(self, request, id, company_name):
-        App = Application.objects.filter(id = id)
+        return Response(status = status.HTTP_200_OK)
