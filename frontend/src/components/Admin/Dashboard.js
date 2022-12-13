@@ -7,6 +7,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import jwtDecode from "jwt-decode";
+import swal from "sweetalert";
 
 
 function AdminDashboard() {
@@ -70,7 +71,7 @@ function AdminDashboard() {
                                             setUsername(data.user)
                                             setAddress(data.address)
                                             setCity(data.city)
-                                            setState(data.city)
+                                            setState(data.state)
                                             setPhone(data.phone)
                                             setCompany_name(data.company_name)
                                             setTypeof(data.typeof)
@@ -81,19 +82,35 @@ function AdminDashboard() {
                                         show  = {modalopen}
                                         onHide = { () => setModalopen(false)} />
                                     <td><button className="btn btn-dark" onClick={async () => {
-                                        console.log(authTokens.access)
-                                        await axios.get(`http://127.0.0.1:8000/approveApplication/${data.id}`, {
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                                'Authorization': `Bearer ${authTokens.access}`
+                                        async function approve() {
+                                            console.log(authTokens.access)
+                                            await axios.get(`http://127.0.0.1:8000/approveApplication/${data.id}`, {
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'Authorization': `Bearer ${authTokens.access}`
+                                                }
+                                            }).then((response) => {
+                                                setRealoader(!reloader)
+                                            }).catch((error) => { console.log(error) })
+                                        }
+                                        swal({
+                                            title : "Approve this Application ?",
+                                            icon : "success",
+                                            buttons : true,
+                                            
+                                        }).then((willDelete) =>{
+                                            if(willDelete)  {
+                                                approve();
+
+                                            } else {
+
                                             }
-                                        }).then((response) => {
-                                            setRealoader(!reloader)
-                                        }).catch((error) => { console.log(error) })
+                                        })
                                     }}
                                     >Approve</button>
                                         <button className="btn btn-dark mx-2"
                                             onClick={async () => {
+                                                async function deny(){
                                                 console.log("Deny Application")
                                                 await axios.get(`http://127.0.0.1:8000/declineApplication/${data.id}`, {
                                                     headers: {
@@ -103,7 +120,20 @@ function AdminDashboard() {
                                                 }).then((response) => {
                                                     setRealoader(!reloader)
                                                 }).catch((error) => { console.log(error) })
-                                            }}
+                                            }
+                                            swal({
+                                                title : "Deny this Application ?",
+                                                icon  : "warning",
+                                                buttons : true,
+                                                dangerMode : true
+                                            }).then((willDelete) => {
+                                                if (willDelete) {
+                                                    deny();
+                                                }else{
+
+                                                }
+                                            });
+                                        }}
                                         >Deny</button></td>
                                 </tr>
                             )
@@ -131,12 +161,12 @@ function AdminDashboard() {
                         <p> Username : {username}</p>
                         <p> Company  : {company_name}</p>
                         <p> Phone    : {phone}</p>
-                        <p> Address  : {address}, {state}, {city}</p>
-                        <p> Type of  : {type_of}</p>
+                        <p> Address  : {address}, {city}, {state}</p>
+                        <p> Type of Incubation  : {type_of}</p>
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                         <Button onClick={props.onHide}>Close</Button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                 </Modal>
             </div>
         )

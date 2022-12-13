@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode"
 import { useNavigate  } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import swal from 'sweetalert'
 const AuthContext = createContext()
 
 
@@ -67,6 +68,7 @@ export const AuthProvider = ({children}) => {
         }else{
             logout()
         }
+        
     }
 
 
@@ -83,10 +85,21 @@ export const AuthProvider = ({children}) => {
 
 
     let logout= () => {
-        console.log("Logged Out")
-        setAuthTokens(null)
-        localStorage.removeItem('authTokens')
-        navigate('/login')
+        swal({
+            title : "Are you sure you want to logout",
+            icon : "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if(willDelete){
+            console.log("Logged Out")
+            setAuthTokens(null)
+            localStorage.removeItem('authTokens')
+            navigate('/login')
+        } else {
+
+        }
+        })
     }
 
 

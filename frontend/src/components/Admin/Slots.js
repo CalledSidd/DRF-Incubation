@@ -31,7 +31,7 @@ function Slot() {
   }
   async function getApprovedCompany() {
     await axios
-      .get("http://127.0.0.1:8000/viewApproved")
+      .get("http://127.0.0.1:8000/approvedCompanies")
       .then((response) => {
         setApprovedco(response.data)
       })
