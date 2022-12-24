@@ -60,7 +60,7 @@ function AdminDashboard() {
                     <tbody>
                         {newapp.map((data, index) => {
                             return (
-                                <tr>
+                                <tr key={data.id}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{data.company_name}</td>
                                     <td>{data.created_at.substring(0, 10)}</td>

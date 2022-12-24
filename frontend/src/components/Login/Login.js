@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
     let {login, authTokens} = useContext(AuthContext)
+    let {error} = useContext(AuthContext)
     const Navigate = useNavigate()
 
     useEffect(() => {
@@ -29,12 +30,13 @@ function Login() {
           <Form onSubmit={login}>
               <div className="mb-3">
                 <label class="form-label" for="form2Example2">Username</label>
-                <input name="username" type="text" controlId="formBasicUsername" class="form-control" placeholder="Username" />
+                <input name="username" type="text" controlId="formBasicUsername" class="form-control" placeholder="Username" required/>
               </div>
               <div className="mb-3">
                 <label class="form-label" for="form2Example2">Password</label>
-                <input type="password" name="password" controlId="formBasicPassword" class="form-control" placeholder="Password"/>
+                <input type="password" name="password" controlId="formBasicPassword" class="form-control" placeholder="Password" required/>
               </div>
+              <p className={`text-danger ${error ? "" : "d-none"}`}>Please enter valid credentials</p>
             <Button variant="dark" type="submit" onSubmit={login}>
               Login
             </Button>

@@ -13,6 +13,7 @@ export default AuthContext
 
 
 export const AuthProvider = ({children}) => {
+    const [error, setError] = useState(false)
     let [authTokens, setAuthTokens] = useState( ()=> localStorage.getItem('authTokens') ?  JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(useState(() => localStorage.getItem('authTokens') ?  jwt_decode(localStorage.getItem('authTokens')) : null))
     let [loading, setLoading] = useState()
@@ -39,13 +40,13 @@ export const AuthProvider = ({children}) => {
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens',JSON.stringify(data))
             console.log(authTokens)
-
             if((jwtDecode(data.access).is_superuser)){
                 navigate('/admin')
             }else{
                 navigate('/')
             }
-
+    }else{
+        setError(true)
     }
 }
 
@@ -67,8 +68,8 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem('authTokens',JSON.stringify(data))
         }else{
             logout()
+
         }
-        
     }
 
 
@@ -107,7 +108,8 @@ export const AuthProvider = ({children}) => {
         user : user, 
         login : login,
         authTokens : authTokens,
-        logout : logout
+        logout : logout,
+        error : error
     }
 
     return ( 

@@ -11,12 +11,18 @@ function Application() {
     let {authTokens}        = useContext(AuthContext)
     const [limit, setLimit] = useState(false)
     const Navigate          = useNavigate()
+    const [username, setUsername] = useState(()=> user ? user.username:"")
+    const [address, setAddress]   = useState("")
+    const [state, setState]       = useState("")
+    const [city, setCity]         = useState("")
+    const [email, setEmail]       = useState("")
+    const [phone, setPhone]       = useState("")
+    const [company_name, setCompany_name] = useState("")
+    const [type_of, setTypeof] = useState("")
 
     useEffect(() => {
-        if(authTokens){
-            
-        }else{
-            Navigate('/login')
+        if(! authTokens){
+            Navigate("/login")
         }
         if(jwtDecode(authTokens.access).is_superuser){
             Navigate('/admin')
@@ -37,14 +43,6 @@ function Application() {
         }
         check();
     }, [])
-    const [username, setUsername] = useState(()=> user ? user.username:"")
-    const [address, setAddress]   = useState("")
-    const [state, setState]       = useState("")
-    const [city, setCity]         = useState("")
-    const [email, setEmail]       = useState("")
-    const [phone, setPhone]       = useState("")
-    const [company_name, setCompany_name] = useState("")
-    const [type_of, setTypeof] = useState("")
 
 
 const formHandler = async (e) => {

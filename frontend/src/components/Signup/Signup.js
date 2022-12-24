@@ -9,6 +9,8 @@ import axios from "axios";
 function Signup() {
 
     const navigate = useNavigate()
+    const [err, setErr]             = useState("")
+    const [showerr, setShowerr]     = useState(false)
     const [username, setUsername]   = useState("")
     const [email, setEmail]         = useState("")
     const [password, setPassword]   = useState("")
@@ -18,9 +20,19 @@ function Signup() {
   let signup = async (e) => {
     e.preventDefault()
     console.log("Signup Function has been called")
-    if (password !== password2){
-        alert("passwords do not match")
+    if(username.length <2 ){
+      setShowerr(true)
+      setErr("Username is Invalid")
     }
+    else if (email.length === 0){
+      setShowerr(true)
+      setErr("Email is Invalid")
+    }
+    else if (password !== password2){
+      setShowerr(true)
+      setErr("Password is Invalid")
+    }
+    
     else{
         console.log("If condition has been checked")
         await axios.post("http://127.0.0.1:8000/signup", {
@@ -36,7 +48,8 @@ function Signup() {
         }).catch((error) => {
             console.log(error)
             if(error.reponse.data === 'Email already exists'){
-                alert("Email already exists")
+                setShowerr(true)
+                setErr("Email already exists")
             }
         })
     }
@@ -53,27 +66,48 @@ function Signup() {
                 <label class="form-label" for="form2Example2"></label>
                 <input type="text" onChange={(e) => {
                     setUsername(e.target.value)
+                    if(e.target.value.length < 3){
+                      console.log("Username")
+                      setShowerr(true)
+                      setErr("Username is Invalid")
+                    }else{
+                      setShowerr(false)
+                    }
                 }} controlId="formBasicUsername" class="form-control" placeholder="Username"  name="username"/>
               </div>
                <div className="mb-3">
                 <label class="form-label" for="form2Example2"></label>
                 <input type="email" onChange={(e) => {
                     setEmail(e.target.value)
+                    if(e.target.value.length < 5){
+                      setShowerr(true)
+                      setErr("Email is invalid")
+                    }else{
+                      setShowerr(false)
+                    }
                 }} controlId="formBasicUsername" class="form-control" placeholder="Email" name="email"/>
+                
               </div>
               <div className="mb-3">
                 <label class="form-label" for="form2Example2"></label>
                 <input type="password" onChange={(e) => {
                     setPassword(e.target.value)
+                    if(e.target.value.length <3 ){
+                      setShowerr(true)
+                      setErr("Password is invalid")
+                    }else{
+                      setShowerr(false)
+                    }
                 }} controlId="formBasicPassword" class="form-control" placeholder="Password" name="password" />
+                
               </div>
               <div className="mb-3">
                 <label class="form-label" for="form2Example2"></label>
                 <input type="password" onChange={(e) => {
-                    setPassword2(e.target.value
-                        )
+                    setPassword2(e.target.value) 
                 }} controlId="formBasicPassword" class="form-control" placeholder="Confirm Password" name="password2" />
               </div>
+              
               <Button variant="dark" type="submit" >
                 SignUp
               </Button>
@@ -83,6 +117,7 @@ function Signup() {
                 </Button>
               </Link>
             </Form>
+                <span className={`text-danger pt-4 ${showerr ? "" : "d-none"}`}>{err}</span>
           </div>
           </div>
         </div>
